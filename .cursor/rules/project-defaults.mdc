@@ -1,0 +1,4 @@
+- リポジトリ構成と責務分離は docs/REPO_ARCHITECTURE.md に従う。
+- フロントエンドのコンポーネント設計と状態管理は docs/FRONTEND_DESIGN_GUIDE.md に従う。
+- MVP の機能と API 仕様は docs/MVP_LOGIN_HOME_SPEC.md に従う。
+- セキュリティリスクが生まれないよう docs/SECURITY_GUIDE.md に従う。
