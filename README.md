@@ -59,3 +59,6 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 --># next-go-supabase-base
+# my-app
+
+新規アプリのモノレポ（フロント + app-service + DB）のリポジトリです。
