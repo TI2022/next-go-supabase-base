@@ -59,6 +59,52 @@ Here are some ideas to get you started:
 - 😄 Pronouns: ...
 - ⚡ Fun fact: ...
 --># next-go-supabase-base
-# my-app
+# next-go-supabase-base
 
 新規アプリのモノレポ（フロント + app-service + DB）のリポジトリです。
+
+## MVP 起動手順（Login + Home）
+
+前提:
+- Supabase DB コンテナが起動していること
+- ルート `.env` が設定済みであること（`POSTGRES_*`）
+
+### 1. DB マイグレーション適用
+
+```bash
+set -a
+source .env
+set +a
+
+psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DATABASE" -f db/migrations/0000_enable_pgcrypto.sql
+psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DATABASE" -f db/migrations/0001_create_users.sql
+psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DATABASE" -f db/migrations/0002_seed_dummy_user.sql
+psql "postgresql://$POSTGRES_USER:$POSTGRES_PASSWORD@$POSTGRES_HOST:$POSTGRES_PORT/$POSTGRES_DATABASE" -f db/migrations/0003_update_dummy_user_password_hash.sql
+```
+
+### 2. app-service 起動
+
+```bash
+cd app-service
+set -a
+source ../.env
+set +a
+go run ./cmd/main.go
+```
+
+### 3. web/client 起動
+
+別ターミナルで:
+
+```bash
+cd web/client
+npm run dev
+```
+
+### 4. 動作確認
+
+- `http://localhost:3000/login` を開く
+- 次でログイン:
+  - email: `demo@example.com`
+  - password: `plain-text-demo-password`
+- ログイン成功後、`/` で Welcome とダミー一覧が表示されることを確認
